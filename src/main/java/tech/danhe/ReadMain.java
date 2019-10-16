@@ -1,5 +1,6 @@
 package tech.danhe;
 
+import tech.danhe.obj.Data;
 import tech.danhe.service.FileAnalyzeService;
 import tech.danhe.service.FilenameService;
 
@@ -20,11 +21,19 @@ public class ReadMain {
         List<List<File>> groupedFiles = filenameService.groupingCollege(Arrays.asList(Objects.requireNonNull(inputFolder.listFiles())));
         groupedFiles.forEach(files -> {
             System.out.println("---------------------------");
-            if (files.size() <= 1) {
-                fileAnalyzeService.analyzeSingleData(files);
-            } else {
-                fileAnalyzeService.analyzeGroupedData(files);
+            String collegeName = "";
+            Data data = null;
+            if (files.size() >= 1) {
+                collegeName = files.get(0).getName();
             }
+            if (files.size() <= 1) {
+                data = fileAnalyzeService.analyzeSingleData(files);
+            } else {
+                data = fileAnalyzeService.analyzeGroupedData(files);
+            }
+
+
+            System.out.println("collegeName: " + collegeName + "\t" + data.toString());
             System.out.println("---------------------------");
         });
 
